@@ -1,4 +1,5 @@
 import os
+import platform
 import socket
 import subprocess
 
@@ -36,4 +37,7 @@ print("Setting up DB")
 
 subprocess.call("diesel setup".split(" "))
 
-subprocess.call(f"sudo python3 setup_nginx.py {rust_port}".split(" "))
+if platform.system() != "Windows":
+    subprocess.call(f"sudo python3 setup_nginx.py {rust_port}".split(" "))
+else:
+    subprocess.call(f"python3 setup_nginx.py {rust_port}".split(" "))

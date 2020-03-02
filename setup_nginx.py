@@ -1,4 +1,5 @@
 import os
+import platform
 import sys
 import subprocess
 
@@ -33,22 +34,35 @@ if __name__ == "__main__":
     formatted_contents = formatted_contents.replace("{web_root}", web_root)
     formatted_contents = formatted_contents.replace("{rust_port}", rust_port)
 
+    windows_default = "C:\\nginx\\conf\\"
+    linux_mac_default = "/etc/nginx/"
+    print("Setting up NGINX configs")
+    os = platform.system()
 
-    # print(formatted_contents)
+    nginx_location = input(f"Enter nginx config location (default {linux_mac_default if os != 'Windows' else windows_default}): ")
+    
+    nginx_location.strip()
+
+    if nginx_location == "":
+        nginx_location = linux_mac_default if os != "Windows" else windows_default
+
     try:
-        nginx_config = open("/etc/nginx/sites-available/rust_spa", "w")
+        nginx_config = open(f"{nginx_location}sites-available/rust_spa", "w")
         nginx_config.write(formatted_contents)
     except Exception as e:
         print(e)
         print(f"Failed to write NGINX config. Directory could not be accessed. Try running as superuser.")
 
-    return_code = subprocess.call(f"ln -s -f /etc/nginx/sites-available/rust_spa /etc/nginx/sites-enabled/rust_spa".split(" "))
+    if os == "Windows":
+        return_code = subprocess.call(f"mklink /J {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
+    else:
+        return_code = subprocess.call(f"ln -s -f {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
 
     if return_code:
         print("Failed to create symlink for nginx server file.")
         exit()
 
-    return_code = subprocess.call("sudo nginx -t".split(" "))
+    return_code = subprocess.call("nginx -t".split(" "))    
 
     if return_code:
         print("Error with nginx server file.")
