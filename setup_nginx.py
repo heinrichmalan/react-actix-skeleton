@@ -69,7 +69,11 @@ if __name__ == "__main__":
         exit()
 
     if os == "Windows":
-        subprocess.call("nginx -s reload".split(" ")) 
+        return_code = subprocess.call("nginx -s reload".split(" ")) 
     else:
-        subprocess.call("sudo nginx -s reload".split(" ")) 
+        return_code = subprocess.call("sudo nginx -s reload".split(" ")) 
+
+    if return_code:
+        print("Failed reloading NGINX. Possible duplicate port used.")
+        exit()
 
