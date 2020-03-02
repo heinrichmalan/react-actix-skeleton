@@ -6,12 +6,12 @@ import subprocess
 if __name__ == "__main__":
     args = sys.argv
     rust_port = args[1]
-    site_port = input("Please enter the port to use for the website (default 80): ")
+    site_port = input("Please enter the port to use for the website (default 3000): ")
 
     try:
         site_port = site_port.strip()
         if site_port == "":
-            site_port = "80"
+            site_port = "3000"
         else:
             site_port = str(int(site_port))
 
@@ -67,3 +67,6 @@ if __name__ == "__main__":
     if return_code:
         print("Error with nginx server file.")
         exit()
+
+    subprocess.call("nginx -s reload".split(" ")) 
+
