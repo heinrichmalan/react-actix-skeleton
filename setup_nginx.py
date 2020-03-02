@@ -68,5 +68,8 @@ if __name__ == "__main__":
         print("Error with nginx server file.")
         exit()
 
-    subprocess.call("nginx -s reload".split(" ")) 
+    if os == "Windows":
+        subprocess.call("nginx -s reload".split(" ")) 
+    else:
+        subprocess.call("sudo nginx -s reload".split(" ")) 
 
