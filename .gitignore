@@ -1,0 +1,4 @@
+/target
+**/*.rs.bk
+frontend/node_modules
+.env
