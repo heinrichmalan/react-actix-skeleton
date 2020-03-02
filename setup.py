@@ -2,6 +2,9 @@ import os
 import socket
 import subprocess
 
+print("Installing node packages")
+subprocess.call("npm install --prefix ./frontend".split(" "))
+
 print("Installing Diesel")
 subprocess.call("cargo install diesel_cli --no-default-features --features postgres".split(" "))
 
@@ -25,7 +28,12 @@ try:
     dot_env = open(".env", "w")
     env_contents = f"DATABASE_URL=postgres://{db_user}:{db_password}@localhost/{db_name}\nRUST_SPA_PORT={rust_port}"
     dot_env.write(env_contents)
+    dot_env.close()
 except:
     print(f"Failed to write .env contents.")
+
+print("Setting up DB")
+
+subprocess.call("diesel setup".split(" "))
 
 subprocess.call(f"sudo python3 setup_nginx.py {rust_port}".split(" "))
