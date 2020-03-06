@@ -20,9 +20,6 @@ if __name__ == "__main__":
     
     cwd = os.getcwd()
 
-
-    # print(site_port)
-
     web_root = f"{cwd}/frontend/build"
     rust_port = str(rust_port)
 
@@ -69,9 +66,13 @@ if __name__ == "__main__":
         exit()
 
     if os == "Windows":
-        return_code = subprocess.call("nginx -s reload".split(" ")) 
+        return_code = subprocess.call("nginx -s start".split(" "))
+        if not return_code:
+            return_code = subprocess.call("nginx -s reload".split(" ")) 
     else:
-        return_code = subprocess.call("sudo nginx -s reload".split(" ")) 
+        return_code = subprocess.call("sudo nginx -s start".split(" "))
+        if not return_code:
+            return_code = subprocess.call("sudo nginx -s reload".split(" ")) 
 
     if return_code:
         print("Failed reloading NGINX. Possible duplicate port used.")
