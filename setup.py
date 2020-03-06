@@ -6,6 +6,11 @@ import subprocess
 print("Installing node packages")
 subprocess.call("npm install --prefix ./frontend".split(" "))
 
+
+print("Installing Systemfd, cargo-watch")
+subprocess.call(
+    "cargo install systemfd cargo-watch".split(" "))
+
 print("Installing Diesel")
 subprocess.call(
     "cargo install diesel_cli --no-default-features --features postgres".split(" "))
