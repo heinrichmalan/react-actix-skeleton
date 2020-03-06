@@ -1,51 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import styled from "styled-components";
+
+import Home from "./views/Home";
+import UserListing from "./views/Users";
+import HomeIcon from "./components/icons/Home";
+
+const PaddedDiv = styled.div`
+    padding: 0 5px;
+`;
 
 export default function App() {
-  return (
-    <Router>
-      <div>
-        <Switch>
-          {/* <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route> */}
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
-}
-
-function Home() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React Now
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <div>
+                <nav
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        padding: "5px"
+                    }}
+                >
+                    <PaddedDiv>
+                        <Link href="/" to="home">
+                            <HomeIcon width="20px" height="20px" />
+                        </Link>
+                    </PaddedDiv>
+                    <PaddedDiv>
+                        <Link href="/users" to="users">
+                            User
+                        </Link>
+                    </PaddedDiv>
+                </nav>
+                <Switch>
+                    <Route path="/users" name="users">
+                        <UserListing />
+                    </Route>
+                    <Route path="/" name="home">
+                        <Home />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
