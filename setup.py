@@ -7,12 +7,13 @@ print("Installing node packages")
 subprocess.call("npm install --prefix ./frontend".split(" "))
 
 print("Installing Diesel")
-subprocess.call("cargo install diesel_cli --no-default-features --features postgres".split(" "))
+subprocess.call(
+    "cargo install diesel_cli --no-default-features --features postgres".split(" "))
 
 localhost = socket.gethostbyname("127.0.0.1")
-rust_port = 8088
+rust_port = 8100
 
-for port in range(8000,9000):  
+for port in range(8100, 9000):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     result = sock.connect_ex((localhost, port))
     if result == 0:
