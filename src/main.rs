@@ -25,17 +25,17 @@ fn gen_random_name() -> Name {
     let mut rng = rand::thread_rng();
     let male_names = vec!["Alex", "Friedrich", "Karl", "John", "Johan"];
     let female_names = vec!["Igrit", "Brigitte", "Olga", "Helga"];
-    let random_index: usize = rng.gen_range(0, male_names.len() - 1);
+    let random_index: usize = rng.gen_range(0, male_names.len());
     let last_name_root = male_names[random_index];
     let mut last_name: String;
     let mut first_name: String;
     let male_or_female: usize = rng.gen_range(0, 2);
     if male_or_female == 0 {
-        let first_name_index: usize = rng.gen_range(0, female_names.len() - 1);
+        let first_name_index: usize = rng.gen_range(0, female_names.len());
         first_name = String::from(female_names[first_name_index]);
         last_name = format!("{}sdottir", last_name_root);
     } else {
-        let first_name_index: usize = rng.gen_range(0, female_names.len() - 1);
+        let first_name_index: usize = rng.gen_range(0, female_names.len());
         first_name = String::from(male_names[first_name_index]);
         last_name = format!("{}sson", last_name_root);
     }
