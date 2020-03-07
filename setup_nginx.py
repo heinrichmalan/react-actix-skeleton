@@ -66,11 +66,11 @@ if __name__ == "__main__":
         exit()
 
     if os == "Windows":
-        return_code = subprocess.call("nginx -s start".split(" "))
+        return_code = subprocess.call("nginx".split(" "))
         if not return_code:
             return_code = subprocess.call("nginx -s reload".split(" ")) 
     else:
-        return_code = subprocess.call("sudo nginx -s start".split(" "))
+        return_code = subprocess.call("sudo service nginx start".split(" "))
         if not return_code:
             return_code = subprocess.call("sudo nginx -s reload".split(" ")) 
 
