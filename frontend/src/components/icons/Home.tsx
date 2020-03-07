@@ -19,7 +19,7 @@ const HomeIcon = ({
             height={width}
             width={height}
             onMouseEnter={() => {
-                setStrokeColor("#61DAFB");
+                setStrokeColor("#FFFFFF");
             }}
             onMouseLeave={() => {
                 setStrokeColor(stroke);
