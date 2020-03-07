@@ -10,30 +10,57 @@ import HomeIcon from "./components/icons/Home";
 
 const PaddedDiv = styled.div`
     padding: 0 5px;
+    color: #FFFFFF;
 `;
+
+const StyledLink = styled(Link)`
+    color: #FFFFFF;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &:visited {
+        text-decoration: none;
+    }
+`;
+
+const Nav = () => {
+    return (<nav
+        style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%"
+        }}
+    >
+        <div
+        style={{
+            display: "flex",
+            flexDirection: "row",
+            padding: "5px",
+            backgroundColor: "#61DAFB"
+        }}>
+        <PaddedDiv>
+            <StyledLink href="/" to="home">
+                <HomeIcon width="20px" height="20px" /> <span style={{marginLeft: '5px'}}>Home</span>
+            </StyledLink>
+        </PaddedDiv>
+        <PaddedDiv>
+            <StyledLink href="/users" to="users">
+                Users
+            </StyledLink>
+        </PaddedDiv>
+        </div>
+    </nav>)
+}
 
 export default function App() {
     return (
         <Router>
             <div>
-                <nav
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        padding: "5px"
-                    }}
-                >
-                    <PaddedDiv>
-                        <Link href="/" to="home">
-                            <HomeIcon width="20px" height="20px" />
-                        </Link>
-                    </PaddedDiv>
-                    <PaddedDiv>
-                        <Link href="/users" to="users">
-                            User
-                        </Link>
-                    </PaddedDiv>
-                </nav>
+                <Nav />
                 <Switch>
                     <Route path="/users" name="users">
                         <UserListing />
