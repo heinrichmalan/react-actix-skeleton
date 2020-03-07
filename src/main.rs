@@ -52,7 +52,7 @@ async fn get_users() -> HttpResponse {
         let name = gen_random_name();
         user_list.push(User {
             name: format!("{} {}", name.first_name, name.last_name),
-            email: format!("{}.{}@email.com", name.first_name, name.last_name),
+            email: format!("{}.{}@email.com", name.first_name.to_lowercase(), name.last_name.to_lowercase()),
         })
     }
     HttpResponse::Ok().json(user_list)
