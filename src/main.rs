@@ -1,6 +1,6 @@
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer};
-use serde::{Deserialize, Serialize};
 use rand::Rng;
+use serde::{Deserialize, Serialize};
 extern crate listenfd;
 use dotenv;
 use listenfd::ListenFd;
@@ -18,7 +18,7 @@ struct Users {
 
 struct Name {
     first_name: String,
-    last_name: String
+    last_name: String,
 }
 
 fn gen_random_name() -> Name {
@@ -27,32 +27,35 @@ fn gen_random_name() -> Name {
     let female_names = vec!["Igrit", "Brigitte", "Olga", "Helga"];
     let random_index: usize = rng.gen_range(0, male_names.len());
     let last_name_root = male_names[random_index];
-    let mut last_name: String;
-    let mut first_name: String;
+    let last_name: String;
+    let first_name: String;
     let male_or_female: usize = rng.gen_range(0, 2);
     if male_or_female == 0 {
         let first_name_index: usize = rng.gen_range(0, female_names.len());
         first_name = String::from(female_names[first_name_index]);
         last_name = format!("{}sdottir", last_name_root);
     } else {
-        let first_name_index: usize = rng.gen_range(0, female_names.len());
+        let first_name_index: usize = rng.gen_range(0, male_names.len());
         first_name = String::from(male_names[first_name_index]);
         last_name = format!("{}sson", last_name_root);
     }
-    
     return Name {
         first_name,
-        last_name
-    }
+        last_name,
+    };
 }
 
 async fn get_users() -> HttpResponse {
     let mut user_list = Vec::<User>::new();
-    for i in 0..10 {
+    for _ in 0..10 {
         let name = gen_random_name();
         user_list.push(User {
             name: format!("{} {}", name.first_name, name.last_name),
-            email: format!("{}.{}@email.com", name.first_name.to_lowercase(), name.last_name.to_lowercase()),
+            email: format!(
+                "{}.{}@email.com",
+                name.first_name.to_lowercase(),
+                name.last_name.to_lowercase()
+            ),
         })
     }
     HttpResponse::Ok().json(user_list)
