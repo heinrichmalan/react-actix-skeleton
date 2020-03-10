@@ -19,6 +19,11 @@ pub mod routes {
         last_name: String,
     }
 
+    #[derive(Serialize)]
+    struct Pong {
+        data: String,
+    }
+
     fn gen_random_name() -> Name {
         let mut rng = rand::thread_rng();
         let male_names = vec!["Alex", "Friedrich", "Karl", "John", "Johan"];
@@ -61,7 +66,14 @@ pub mod routes {
 
     pub fn scope() -> actix_web::Scope {
         web::scope("/api")
-            .route("/test", web::get().to(|| HttpResponse::Ok().body("test")))
+            .route(
+                "/ping",
+                web::get().to(|| {
+                    HttpResponse::Ok().json(Pong {
+                        data: String::from("pong"),
+                    })
+                }),
+            )
             .route("/users", web::get().to(get_users))
     }
 }
