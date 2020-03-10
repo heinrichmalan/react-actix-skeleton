@@ -80,5 +80,9 @@ async fn main() {
         server.bind(format!("127.0.0.1:{}", port)).unwrap()
     };
 
-    server.run().await;
+    let res = server.run().await;
+    match res {
+        Ok(res) => res,
+        Err(error) => panic!("Error running the server: {:?}", error),
+    }
 }
