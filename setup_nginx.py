@@ -6,7 +6,8 @@ import subprocess
 if __name__ == "__main__":
     args = sys.argv
     rust_port = args[1]
-    site_port = input("Please enter the port to use for the website (default 3000): ")
+    site_port = input(
+        "Please enter the port to use for the website (default 3000): ")
 
     try:
         site_port = site_port.strip()
@@ -17,7 +18,7 @@ if __name__ == "__main__":
 
     except ValueError:
         print("Error: Site Port must be an integer.")
-    
+
     cwd = os.getcwd()
 
     web_root = f"{cwd}/frontend/build"
@@ -36,8 +37,9 @@ if __name__ == "__main__":
     print("Setting up NGINX configs")
     os = platform.system()
 
-    nginx_location = input(f"Enter nginx config location (default {linux_mac_default if os != 'Windows' else windows_default}): ")
-    
+    nginx_location = input(
+        f"Enter nginx config location (default {linux_mac_default if os != 'Windows' else windows_default}): ")
+
     nginx_location.strip()
 
     if nginx_location == "":
@@ -51,15 +53,17 @@ if __name__ == "__main__":
         print(f"Failed to write NGINX config. Directory could not be accessed. Try running as superuser.")
 
     if os == "Windows":
-        return_code = subprocess.call(f"mklink /J {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
+        return_code = subprocess.call(
+            f"mklink /J {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
     else:
-        return_code = subprocess.call(f"ln -s -f {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
+        return_code = subprocess.call(
+            f"ln -s -f {nginx_location}sites-available/rust_spa {nginx_location}sites-enabled/rust_spa".split(" "))
 
     if return_code:
         print("Failed to create symlink for nginx server file.")
         exit()
 
-    return_code = subprocess.call("nginx -t".split(" "))    
+    return_code = subprocess.call("nginx -t".split(" "))
 
     if return_code:
         print("Error with nginx server file.")
@@ -68,13 +72,14 @@ if __name__ == "__main__":
     if os == "Windows":
         return_code = subprocess.call("nginx".split(" "))
         if not return_code:
-            return_code = subprocess.call("nginx -s reload".split(" ")) 
+            return_code = subprocess.call("nginx -s reload".split(" "))
+    if os == "Darwin":
+        # TODO
     else:
         return_code = subprocess.call("sudo service nginx start".split(" "))
         if not return_code:
-            return_code = subprocess.call("sudo nginx -s reload".split(" ")) 
+            return_code = subprocess.call("sudo nginx -s reload".split(" "))
 
     if return_code:
         print("Failed reloading NGINX. Possible duplicate port used.")
         exit()
-
