@@ -26,12 +26,49 @@ pub mod routes {
 
     fn gen_random_name() -> Name {
         let mut rng = rand::thread_rng();
-        let male_names = vec!["Alex", "Friedrich", "Karl", "John", "Johan"];
-        let female_names = vec!["Igrit", "Brigitte", "Olga", "Helga"];
+        let male_names = vec![
+            "Alexander",
+            "Friedrich",
+            "Karl",
+            "John",
+            "Johan",
+            "Bjorn",
+            "Felix",
+            "Jonas",
+            "Jesper",
+            "Ulf",
+            "Olaf",
+            "Axel",
+            "Niels",
+            "Magnus",
+            "Kjel",
+            "Tord",
+            "Torston",
+        ];
+        let female_names = vec![
+            "Igrit",
+            "Brigitte",
+            "Olga",
+            "Helga",
+            "Johana",
+            "Anna",
+            "Henrietta",
+            "Martha",
+            "Heidi",
+            "Agnes",
+            "Greta",
+            "Andrea",
+            "Birgit",
+            "Matilda",
+            "Annika",
+            "Ulrika",
+        ];
         let random_index: usize = rng.gen_range(0, male_names.len());
         let last_name_root = male_names[random_index];
+
         let last_name: String;
         let first_name: String;
+
         let male_or_female: usize = rng.gen_range(0, 2);
         if male_or_female == 0 {
             let first_name_index: usize = rng.gen_range(0, female_names.len());
@@ -40,7 +77,7 @@ pub mod routes {
         } else {
             let first_name_index: usize = rng.gen_range(0, male_names.len());
             first_name = String::from(male_names[first_name_index]);
-            last_name = format!("{}sson", last_name_root);
+            last_name = format!("{}son", last_name_root);
         }
         return Name {
             first_name,
